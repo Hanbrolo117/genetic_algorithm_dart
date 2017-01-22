@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:genetic_algorithm/src/models/constants.dart';
 
 class City {
+    int name;
     int _x;
     int _y;
 
@@ -13,9 +14,10 @@ class City {
     }
 
     // Constructs a city at chosen x, y location
-    City.point(int x, int y){
+    City.point(int x, int y,[int name]){
         this._x = x;
         this._y = y;
+        this.name = name;
     }
 
     // Gets city's x coordinate

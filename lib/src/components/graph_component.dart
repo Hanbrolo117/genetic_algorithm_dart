@@ -43,32 +43,45 @@ class GraphSolutionComponent extends FluxUiComponent<GraphSolutionProps> {
 
   void drawOnCanvas() {
     context.beginPath();
-    String x ="";
+    String x = "";
     for(int i=0; i < props.store.cityPoints.length; i++){
       x += (i < props.store.cityPoints.length-1) ? "${i+1}," : "${i+1}";
     }
     print(x);
     //If solution in store is set, map the route:
-    if(props.store.solution != null){
+    if(props.store.solutionFound){
+      String test = "";
       for(int i=0; i < props.store.cityPoints.length; i++){
+        if(i < props.store.cityPoints.length-1){
+          test += " ${props.store.cityPoints[i].x1}, ${props.store.cityPoints[i].y1},";
+        }else{
+          test += " ${props.store.cityPoints[i].x1}, ${props.store.cityPoints[i].y1}";
+        }
         context.setStrokeColorRgb(props.lineColor[0], props.lineColor[1], props.lineColor[2]);
         context.moveTo(props.store.cityPoints[i].x1, props.store.cityPoints[i].y1);
-        context.lineTo(props.store.cityPoints[i].x2, props.store.cityPoints[i].y2);
+        if(props.store.cityPoints[i].x2 != null){
+          context.lineTo(props.store.cityPoints[i].x2, props.store.cityPoints[i].y2);
+        }
         context.stroke();
       }
+      print(test);
     }
 
     for(int i=0; i < props.store.cityPoints.length; i++){
       context.beginPath();
       context.arc(props.store.cityPoints[i].x1, props.store.cityPoints[i].y1,raddi,0*PI,2*PI);
-      context.fillStyle = "#2196f3";
+      if(props.store.solutionFound){
+        if(i==0){context.fillStyle = "#4caf50";}
+        else if((i+1) ==props.store.cityPoints.length){context.fillStyle = "#f44336";}
+        else{context.fillStyle = "#2196f3";}
+      }else{context.fillStyle = "#2196f3";}
       context.fill();
       context.stroke();
 
       context.fillStyle = "black"; // font color to write the text with
       context.font = "bold ${20}px serif";
       context.textBaseline = "center";
-      context.fillText("${i+1}", props.store.cityPoints[i].x1-5, props.store.cityPoints[i].y1+6);
+      context.fillText("${props.store.cityPoints[i].name}", props.store.cityPoints[i].x1-5, props.store.cityPoints[i].y1+6);
       context.stroke();
     }
     context.closePath();
@@ -96,7 +109,7 @@ class GraphSolutionComponent extends FluxUiComponent<GraphSolutionProps> {
     var mouseY = (e.clientY - offsetY);
     int city = clickInCircle(mouseX, mouseY);
     if(city <= -1){
-      GraphPoint newCity = new GraphPoint(mouseX, mouseY);
+      GraphPoint newCity = new GraphPoint(mouseX, mouseY, null, null, (props.store.cityCount+1));
       props.actions.addCity(newCity);
     }else{
       props.actions.removeCity(city);

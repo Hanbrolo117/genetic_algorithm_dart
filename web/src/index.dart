@@ -6,6 +6,7 @@ import 'package:over_react/over_react.dart';
 import 'package:genetic_algorithm/src/components/title_component.dart';
 import 'package:genetic_algorithm/src/components/app_body_component.dart';
 import 'package:genetic_algorithm/src/components/nav_component.dart';
+import 'package:genetic_algorithm/src/components/footer_component.dart';
 import 'package:genetic_algorithm/src/stores/graph_store.dart';
 import 'package:genetic_algorithm/src/actions/graph_actions.dart';
 
@@ -33,6 +34,7 @@ void main(){
         ..leftTitle = "Map Builder"
         ..rightTitle = "Genetic Configuration Tools"
       )(),
+      // Footer()()
     //   (GraphSolution()
     //     ..lineColor = [0,0,0]
     //     ..points = points

@@ -3,5 +3,6 @@ class GraphPoint {
   int y1;
   int x2;
   int y2;
-  GraphPoint(this.x1, this.y1, [this.x2, this.y2]);
+  int name;
+  GraphPoint(this.x1, this.y1, [this.x2, this.y2, this.name]);
 }

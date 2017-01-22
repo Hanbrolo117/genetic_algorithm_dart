@@ -21,16 +21,16 @@ class ConfigFormProps extends FluxUiProps<GraphActions, GraphStore> {
 
 @State()
 class ConfigFormState extends UiState {
-  bool survivalRoundsValid;
-  bool mutationRateValid;
-  bool initPopSizeValid;
-  bool generationNumValid;
-  bool isSucessful;
+  bool isTourneyValid;
+  bool isMutValid;
+  bool isPopSizeValid;
+  bool isGenNumValid;
 
-  String survivialRounds;
-  String mutationRate;
+  String tourneyNum;
+  String mutNum;
   String popSize;
-  String numOfGens;
+  String genNum;
+  String x;
 }
 
 @Component()
@@ -42,9 +42,20 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
   InputElement survRef;
 
 
+  @override
+  getInitialState() => (newState()..tourneyNum=""
+    ..mutNum=""
+    ..genNum=""
+    ..popSize=""
+  );
+
 
   @override
   render() {
+    print(state.tourneyNum);
+    print(state.mutNum);
+    print(state.popSize);
+    print(state.genNum);
     String validHighlight = "is-valid";
     String validIcon = "fa-check";
     String invalidHighlight = "is-danger";
@@ -53,148 +64,139 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
       (Dom.label()..className="label")("Number of survival rounds in GA:"),
       (Dom.p()..className="control has-icon has-icon-right")(
         (Dom.input()
-          ..className="input ${state.survivalRoundsValid ? (validHighlight == null ? '': validHighlight) : invalidHighlight}"
+          ..className="input ${state.isTourneyValid ? (validHighlight == null ? '': validHighlight) : invalidHighlight}"
           ..type = "text"
           ..placeholder = "Enter # of survival rounds here!"
           ..onChange = (event) => (this.onSurvivalRoundsChange(event))
-          ..value = state.survivialRounds
+          ..value = state?.tourneyNum
         )(),
         (Dom.span()..className="icon is-small")(
-          (Dom.i()..className="fa ${state.survivalRoundsValid ? validIcon : invalidIcon}")()
+          (Dom.i()..className="fa ${state.isTourneyValid ? validIcon : invalidIcon}")()
         )
       ),
       (Dom.label()..className="label")("Mutation Rate 0.0-1.0:"),
       (Dom.p()..className="control has-icon has-icon-right")(
         (Dom.input()
-          ..className="input ${state.mutationRateValid ? validHighlight : invalidHighlight}"
+          ..className="input ${state.isMutValid ? validHighlight : invalidHighlight}"
           ..type = "text"
           ..placeholder = "Enter mutation value here!"
           ..onChange = (event) => (this.onMutationChange(event))
-          ..value = state.mutationRate
+          ..value = state.mutNum
         )(),
         (Dom.span()..className="icon is-small")(
-          (Dom.i()..className="fa ${state.mutationRateValid ? validIcon : invalidIcon}")()
+          (Dom.i()..className="fa ${state.isMutValid ? validIcon : invalidIcon}")()
         )
       ),
       (Dom.label()..className="label")("Enter a population Size to start out with:"),
       (Dom.p()..className="control has-icon has-icon-right")(
         (Dom.input()
-          ..className="input ${state.initPopSizeValid ? validHighlight : invalidHighlight}"
+          ..className="input ${state.isPopSizeValid ? validHighlight : invalidHighlight}"
           ..type = "text"
           ..placeholder = "Enter number of individuals in first generation here!"
           ..onChange = (event) => (this.onPopSizeChange(event))
           ..value = state.popSize
         )(),
         (Dom.span()..className="icon is-small")(
-          (Dom.i()..className="fa ${state.initPopSizeValid ? validIcon : invalidIcon}")()
+          (Dom.i()..className="fa ${state.isPopSizeValid ? validIcon : invalidIcon}")()
         )
       ),
       (Dom.label()..className="label")("Enter number of Generations to Run in the sim:"),
       (Dom.p()..className="control has-icon has-icon-right")(
         (Dom.input()
-          ..className="input ${state.generationNumValid ? validHighlight : invalidHighlight}"
+          ..className="input ${state.isGenNumValid ? validHighlight : invalidHighlight}"
           ..type = "text"
           ..placeholder = "Enter number of generations to sim here!"
           ..onChange = (event) => (this.onGenSetChange(event))
-          ..value = state.numOfGens
+          ..value = state.genNum
         )(),
         (Dom.span()..className="icon is-small")(
-          (Dom.i()..className="fa ${state.initPopSizeValid ? validIcon : invalidIcon}")()
+          (Dom.i()..className="fa ${state.isPopSizeValid ? validIcon : invalidIcon}")()
         )
       ),
 
       (Dom.div()..className="control is-grouped")(
         (Dom.p()..className="control")(
           (Dom.button()
-            ..className="button is-primary ${state.isSucessful ? 'is-loading' : ''}"
+            ..className="button is-primary ${props.store.isSimRunning ? 'is-loading is-disabled' : ''}"
             ..onClick = (_){this.handleEvolve();}
           )("Evolve!"),
           (Dom.button()
-            ..className="button is-primary "
-            ..onClick = (_){this.handleRandomize();}
-          )("Randomize!")
+            ..className="button is-primary ${props.store.isSimRunning ? 'is-disabled' : 'is-hidden'}"
+            ..onClick = (_){this.handleEvolve();}
+          )("Evolve!"),
         )
       )
     );
   }
 
   handleEvolve(){
-    if(state.survivalRoundsValid && state.generationNumValid && state.mutationRateValid && state.initPopSizeValid){
-      setState(newState()..isSucessful = true);
-      //Trigger GA
+    if(state.isTourneyValid && state.isGenNumValid && state.isMutValid && state.isPopSizeValid){
+      print("Spinning up...");
+      props.actions.startSim(true);
+      print("Packing payload...");
+      GAPayload payload = new GAPayload(state.mutNum, state.popSize, state.tourneyNum, state.genNum);
+      print("Done!");
+      print("Contacting GA Runner...");
+      props.actions.runSim(payload);
+      print("Done!");
     }
   }
 
-  handleRandomize(){
-    if(!state.isSucessful){
-      Random rand = new Random();
-      var popRef = (rand.nextInt(100)+50).toString();
-      var genRef = (rand.nextInt(1001)+50).toString();
-      var mutRef = rand.nextDouble().toString();
-      var survRef = rand.nextInt(10).toString();
-      print(popRef);
-      print(genRef);
-      print(mutRef);
-      print(survRef);
-      setState(newState()
-        // ..survivalRoundsValid = true
-        // ..initPopSizeValid = true
-        // ..generationNumValid = true
-        // ..mutationRateValid = true
-        ..survivialRounds = survRef
-        ..popSize = popRef
-        ..mutationRate = mutRef
-        ..numOfGens = genRef);
-    }
-  }
 
   onSurvivalRoundsChange(event){
+    if(props.store.isSimRunning)return;
     //Checking:
+    // String val = event.target.value;
     String val = event.target.value;
     if(!isNumeric(val)){
-      setState(newState()..survivalRoundsValid = false);
+      setState(newState()..isTourneyValid = false);
     }else{
-      setState(newState()..survivalRoundsValid = true);
+      setState(newState()..isTourneyValid = true);
     }
-    setState(newState()..survivialRounds = event.target.value);
+    setState(newState()..tourneyNum = val);
   }
 
   onMutationChange(event){
+    if(props.store.isSimRunning)return;
     //Checking:
+    // String val = event.target.value;
     String val = event.target.value;
     if(!isNumeric(val)){
-      setState(newState()..mutationRateValid = false);
+      setState(newState()..isMutValid = false);
     }else{
       if(double.parse(val) >= 1){
-        setState(newState()..mutationRateValid = false);
+        setState(newState()..isMutValid = false);
       }else{
-        setState(newState()..mutationRateValid = true);
+        setState(newState()..isMutValid = true);
       }
     }
-    setState(newState()..mutationRate = event.target.value);
+    setState(newState()..mutNum = val);
   }
 
   onPopSizeChange(event){
+    if(props.store.isSimRunning)return;
     //Checking:
     String val = event.target.value;
     if(!isNumeric(val)){
-      setState(newState()..initPopSizeValid = false);
+      setState(newState()..isPopSizeValid = false);
     }else{
-      setState(newState()..initPopSizeValid = true);
+      setState(newState()..isPopSizeValid = true);
     }
-    setState(newState()..popSize = event.target.value);
+    setState(newState()..popSize = val);
   }
 
   onGenSetChange(event){
+    if(props.store.isSimRunning)return;
     //Checking:
     String val = event.target.value;
     if(!isNumeric(val)){
-      setState(newState()..generationNumValid = false);
+      setState(newState()..isGenNumValid = false);
     }else{
-      setState(newState()..generationNumValid = true);
+      setState(newState()..isGenNumValid = true);
     }
-    setState(newState()..numOfGens = event.target.value);
+    setState(newState()..genNum = val);
   }
+
 }
 
 bool isNumeric(String s) {

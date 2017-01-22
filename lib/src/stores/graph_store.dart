@@ -1,8 +1,8 @@
 import 'package:w_flux/w_flux.dart';
-import 'package:genetic_algorithm/src/models/tourMap.dart';
+import 'package:genetic_algorithm/src/models/ga/tourMap.dart';
 import 'package:genetic_algorithm/src/models/graph_point.dart';
 import 'package:genetic_algorithm/src/actions/graph_actions.dart';
-import 'package:genetic_algorithm/src/models/chromosome.dart';
+import 'package:genetic_algorithm/src/models/ga/chromosome.dart';
 
 class GraphStore extends Store {
 

@@ -24,9 +24,6 @@ class GraphSolutionComponent extends FluxUiComponent<GraphSolutionProps> {
   CanvasRenderingContext2D context;
 
   @override
-  getInitialProps() => (newProps()..lineColor = [0,0,0]);
-
-  @override
   redrawOn() => [props.store];
 
   @override

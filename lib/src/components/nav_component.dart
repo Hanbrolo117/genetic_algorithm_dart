@@ -27,7 +27,7 @@ class NavComponent extends UiComponent<NavProps> {
       (Dom.div()..className="nav-left")(
         (Dom.a()..className="nav-item")(
           Dom.span()(
-            (Dom.span()..className="icon"..style={"marginRight":"10"})(
+            (Dom.span()..className="icon"..style={"marginRight":"10px"})(
               (Dom.i()..className="fa fa-coffee")()
             ),
             "Developed by Kyle Ferguson ",

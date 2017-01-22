@@ -5882,7 +5882,7 @@ t=$.bD
 s=P.p()
 r=P.p()
 r.j(0,"className","icon")
-r.j(0,"style",P.ad(["marginRight","10"]))
+r.j(0,"style",P.ad(["marginRight","10px"]))
 q=$.cy
 p=P.p()
 p.j(0,"className","fa fa-coffee")
@@ -6939,8 +6939,8 @@ x=x.$0()
 w=$.$get$cO().$0()
 w.sE(s)
 w.sap(t)
-w.sb7("Map")
-w.sbb("Map Tools")
+w.sb7("Map Builder")
+w.sbb("Genetic Configuration Tools")
 u.$2(new A.B(v,z).$3(y,x,w.$0()),document.querySelector("#react_mount_point"))},"$0","ht",0,0,2]},1],["","",,A,{"^":""}]]
 setupProgram(dart,0)
 J.q=function(a){if(typeof a=="number"){if(Math.floor(a)==a)return J.cZ.prototype

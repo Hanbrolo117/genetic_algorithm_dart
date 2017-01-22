@@ -4,6 +4,7 @@ import 'package:react/react_dom.dart' as react_dom;
 import 'package:react/react_client.dart' as react_client;
 import 'package:over_react/over_react.dart';
 import 'package:genetic_algorithm/src/components/title_component.dart';
+import 'package:genetic_algorithm/src/components/config_form_component.dart';
 import 'package:genetic_algorithm/src/models/constants.dart';
 import 'package:genetic_algorithm/src/models/graph_point.dart';
 import 'package:genetic_algorithm/src/components/graph_component.dart';
@@ -47,11 +48,16 @@ class AppBodyComponent extends UiComponent<AppBodyProps> {
           )
         ),
         (Dom.div()..className="column")(
-          (Dom.h1()
-            ..className="title"
+          (Dom.h1()..className="title"
             ..style={"textAlign":"center"})(
               props.rightTitle
           ),
+          (Dom.div()..className="columns is-centered")(
+              (ConfigForm()
+                ..store = props.store
+                ..actions = props.actions
+              )()
+          )
         ),
       );
   }

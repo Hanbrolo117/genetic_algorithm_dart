@@ -30,8 +30,8 @@ void main(){
       (AppBody()
         ..store = graphStore
         ..actions = graphActions
-        ..leftTitle = "Map"
-        ..rightTitle = "Map Tools"
+        ..leftTitle = "Map Builder"
+        ..rightTitle = "Genetic Configuration Tools"
       )(),
     //   (GraphSolution()
     //     ..lineColor = [0,0,0]

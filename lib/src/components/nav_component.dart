@@ -25,14 +25,19 @@ class NavComponent extends UiComponent<NavProps> {
       ..className="nav"
     )(
       (Dom.div()..className="nav-left")(
-        // (Dom.a()..className="nav-item")(
-        //   (Dom.img()
-        //   ..src="http:\/\/bulma.io\/images\/bulma-logo.png"
-        //   ..alt="Bulma logo")()
-        // )
+        (Dom.a()..className="nav-item")(
+          Dom.span()(
+            (Dom.span()..className="icon"..style={"marginRight":"10"})(
+              (Dom.i()..className="fa fa-coffee")()
+            ),
+            "Developed by Kyle Ferguson ",
+          )
+        )
       ),
       (Dom.div()..className="nav-center")(
-        (Dom.a()..className="nav-item")(
+        (Dom.a()
+          ..href="https://github.com/Hanbrolo117/genetic_algorithm_dart"
+          ..className="nav-item")(
           (Dom.span()..className="icon")(
             (Dom.i()..className="fa fa-github")()
           )
@@ -44,7 +49,7 @@ class NavComponent extends UiComponent<NavProps> {
         (Dom.a()..className="nav-item")("Education"),
         (Dom.span()..className="nav-item")(
           (Dom.a()
-            ..href="https://gitlab.com/Hanbrolo117/GeneticAlgo/repository/archive.zip"
+            ..href="https://github.com/Hanbrolo117/genetic_algorithm_dart/archive/master.zip"
             ..className="button is-primary")(
             (Dom.span()..className="icon")(
               (Dom.i()..className="fa fa-download")()

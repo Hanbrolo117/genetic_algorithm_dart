@@ -14,6 +14,7 @@ class FooterComponent extends UiComponent {
   @override
   render(){
     return (Dom.footer()
+      ..style={"marginTop":"70px"}
       ..className = "footer is-small"
     )(
       (Dom.div()..className="container")(

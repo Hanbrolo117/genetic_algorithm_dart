@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:math';
+import 'dart:async';
 import 'package:react/react.dart' as react;
 import 'package:react/react_dom.dart' as react_dom;
 import 'package:react/react_client.dart' as react_client;
@@ -25,7 +26,7 @@ class ConfigFormState extends UiState {
   bool isMutValid;
   bool isPopSizeValid;
   bool isGenNumValid;
-
+  bool isLoading;
   String tourneyNum;
   String mutNum;
   String popSize;
@@ -47,6 +48,7 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
     ..mutNum=""
     ..genNum=""
     ..popSize=""
+    ..isLoading = false
   );
 
 
@@ -119,6 +121,7 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
           (Dom.button()
             ..className="button is-primary ${props.store.isSimRunning ? 'is-loading is-disabled' : ''}"
             ..onClick = (_){this.handleEvolve();}
+            ..ref = "evolve"
           )("Evolve!"),
           (Dom.button()
             ..className="button is-primary ${props.store.isSimRunning ? 'is-disabled' : 'is-hidden'}"
@@ -128,11 +131,16 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
       )
     );
   }
+  Future sleep1() {
+    return new Future.delayed(const Duration(seconds: 1), () => "1");
+  }
 
   handleEvolve(){
     if(state.isTourneyValid && state.isGenNumValid && state.isMutValid && state.isPopSizeValid){
       print("Spinning up...");
       props.actions.startSim(true);
+      (this.ref("evolve") as ButtonElement).classes = ["is-loading"];
+      sleep1();
       print("Packing payload...");
       GAPayload payload = new GAPayload(state.mutNum, state.popSize, state.tourneyNum, state.genNum);
       print("Done!");

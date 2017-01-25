@@ -34,12 +34,6 @@ void main(){
         ..leftTitle = "Map Builder"
         ..rightTitle = "Genetic Configuration Tools"
       )(),
-      // Footer()()
-    //   (GraphSolution()
-    //     ..lineColor = [0,0,0]
-    //     ..points = points
-    //     ..gWidth = 3840
-    //     ..gHeight = 2160
-    // )()
+      (Footer())()
     ),querySelector('#react_mount_point'));
 }

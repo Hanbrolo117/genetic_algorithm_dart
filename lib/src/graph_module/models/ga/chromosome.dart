@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:genetic_algorithm/src/models/constants.dart';
 import 'package:genetic_algorithm/src/models/ga/tourMap.dart';
-import 'package:genetic_algorithm/src/graph_module/models/ga/city.dart';
+import 'package:genetic_algorithm/src/models/ga/city.dart';
 
 class Chromosome{
 

@@ -3,13 +3,14 @@ import 'package:react/react.dart' as react;
 import 'package:react/react_dom.dart' as react_dom;
 import 'package:react/react_client.dart' as react_client;
 import 'package:over_react/over_react.dart';
-import 'package:genetic_algorithm/src/components/title_component.dart';
-import 'package:genetic_algorithm/src/components/config_form_component.dart';
+
+import 'package:genetic_algorithm/src/graph_module/components/title_component.dart';
+import 'package:genetic_algorithm/src/graph_module/components/config_form_component.dart';
 import 'package:genetic_algorithm/src/models/constants.dart';
 import 'package:genetic_algorithm/src/models/graph_point.dart';
-import 'package:genetic_algorithm/src/components/graph_component.dart';
-import 'package:genetic_algorithm/src/stores/graph_store.dart';
-import 'package:genetic_algorithm/src/actions/graph_actions.dart';
+import 'package:genetic_algorithm/src/graph_module/components/graph_component.dart';
+import 'package:genetic_algorithm/src/graph_module/stores/graph_store.dart';
+import 'package:genetic_algorithm/src/graph_module/actions/graph_actions.dart';
 
 @Factory()
 UiFactory<AppBodyProps> AppBody;

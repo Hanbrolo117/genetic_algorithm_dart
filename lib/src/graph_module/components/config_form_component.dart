@@ -5,12 +5,11 @@ import 'package:react/react.dart' as react;
 import 'package:react/react_dom.dart' as react_dom;
 import 'package:react/react_client.dart' as react_client;
 import 'package:over_react/over_react.dart';
-import 'package:genetic_algorithm/src/components/title_component.dart';
+import 'package:genetic_algorithm/src/graph_module/components/title_component.dart';
 import 'package:genetic_algorithm/src/models/constants.dart';
 import 'package:genetic_algorithm/src/models/graph_point.dart';
-import 'package:genetic_algorithm/src/components/graph_component.dart';
-import 'package:genetic_algorithm/src/stores/graph_store.dart';
-import 'package:genetic_algorithm/src/actions/graph_actions.dart';
+import 'package:genetic_algorithm/src/graph_module/components/graph_component.dart';
+import 'package:genetic_algorithm/src/graph_module/actions/graph_actions.dart';
 
 @Factory()
 UiFactory<ConfigFormProps> ConfigForm;
@@ -27,6 +26,7 @@ class ConfigFormState extends UiState {
   bool isPopSizeValid;
   bool isGenNumValid;
   bool isLoading;
+  bool isRunning;
   String tourneyNum;
   String mutNum;
   String popSize;
@@ -48,6 +48,7 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
     ..mutNum=""
     ..genNum=""
     ..popSize=""
+    ..isRunning= false
     ..isLoading = false
   );
 
@@ -119,34 +120,36 @@ class ConfigFormComponent extends FluxUiStatefulComponent<ConfigFormProps, Confi
       (Dom.div()..className="control is-grouped")(
         (Dom.p()..className="control")(
           (Dom.button()
-            ..className="button is-primary ${props.store.isSimRunning ? 'is-loading is-disabled' : ''}"
+            ..className="button is-primary ${state.isRunning ? 'is-loading is-disabled' : ''}"
             ..onClick = (_){this.handleEvolve();}
             ..ref = "evolve"
           )("Evolve!"),
-          (Dom.button()
-            ..className="button is-primary ${props.store.isSimRunning ? 'is-disabled' : 'is-hidden'}"
-            ..onClick = (_){this.handleEvolve();}
-          )("Evolve!"),
+          // (Dom.button()
+          //   ..className="button is-primary ${state.isRunning ? 'is-disabled' : 'is-hidden'}"
+          //   ..onClick = (_){this.handleEvolve();}
+          // )("Evolve!"),
         )
       )
     );
   }
-  Future sleep1() {
-    return new Future.delayed(const Duration(seconds: 1), () => "1");
+  Future runGA() async{
+    print("Packing payload...");
+    GAPayload payload = new GAPayload(state.mutNum, state.popSize, state.tourneyNum, state.genNum);
+    print("Done!");
+    print("Contacting GA Runner...");
+    props.actions.runSim(payload);
+    print("Done!");
   }
 
   handleEvolve(){
     if(state.isTourneyValid && state.isGenNumValid && state.isMutValid && state.isPopSizeValid){
       print("Spinning up...");
       props.actions.startSim(true);
-      (this.ref("evolve") as ButtonElement).classes = ["is-loading"];
-      sleep1();
-      print("Packing payload...");
-      GAPayload payload = new GAPayload(state.mutNum, state.popSize, state.tourneyNum, state.genNum);
-      print("Done!");
-      print("Contacting GA Runner...");
-      props.actions.runSim(payload);
-      print("Done!");
+      setState(newState()..isRunning = true);
+      print(state.isRunning);
+      this.runGA();
+      setState(newState()..isRunning = false);
+      print(state.isRunning.toString());
     }
   }
 

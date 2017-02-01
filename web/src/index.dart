@@ -1,20 +1,20 @@
 import 'dart:html';
 import 'dart:core';
+
 import 'package:react/react_dom.dart' as react_dom;
 import 'package:react/react_client.dart' as react_client;
 import 'package:over_react/over_react.dart';
-import 'package:genetic_algorithm/src/components/title_component.dart';
-import 'package:genetic_algorithm/src/components/app_body_component.dart';
-import 'package:genetic_algorithm/src/components/nav_component.dart';
-import 'package:genetic_algorithm/src/components/footer_component.dart';
-import 'package:genetic_algorithm/src/stores/graph_store.dart';
-import 'package:genetic_algorithm/src/actions/graph_actions.dart';
 
+import 'package:genetic_algorithm/src/graph_module/components/title_component.dart';
+import 'package:genetic_algorithm/src/graph_module/components/nav_component.dart';
+import 'package:genetic_algorithm/src/graph_module/components/footer_component.dart';
+import 'package:genetic_algorithm/src/graph_module/graph_module.dart';
 
 
 void main(){
-  GraphActions graphActions = new GraphActions();
-  GraphStore graphStore = new GraphStore(graphActions);
+
+  GraphModule gModule = new GraphModule();
+
   //Initialize React within our Dart App:
   react_client.setClientConfiguration();
 
@@ -28,12 +28,7 @@ void main(){
         ..type = "is-primary"
         ..boldness = "is-bold"
       )(),
-      (AppBody()
-        ..store = graphStore
-        ..actions = graphActions
-        ..leftTitle = "Map Builder"
-        ..rightTitle = "Genetic Configuration Tools"
-      )(),
+      gModule.components.content()(),
       (Footer())()
     ),querySelector('#react_mount_point'));
 }

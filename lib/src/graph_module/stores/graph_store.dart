@@ -1,7 +1,15 @@
+//Dependencies:
 import 'package:w_flux/w_flux.dart';
+import 'package:w_module/w_module.dart';
+
+
+
+//App:
+import 'package:genetic_algorithm/src/graph_module/actions/graph_actions.dart';
+import 'package:genetic_algorithm/src/graph_module/events/graph_events.dart';
 import 'package:genetic_algorithm/src/models/ga/tourMap.dart';
 import 'package:genetic_algorithm/src/models/graph_point.dart';
-import 'package:genetic_algorithm/src/actions/graph_actions.dart';
+import 'package:genetic_algorithm/src/graph_module/actions/graph_actions.dart';
 import 'package:genetic_algorithm/src/models/ga/chromosome.dart';
 import 'package:genetic_algorithm/src/models/ga/city.dart';
 import 'package:genetic_algorithm/src/models/ga/tourMap.dart';
@@ -9,14 +17,18 @@ import 'package:genetic_algorithm/src/models/ga/population.dart';
 import 'package:genetic_algorithm/src/models/ga/genetic_algorithm.dart';
 
 class GraphStore extends Store {
+  GraphActions _actions;
+  GraphEvents _events;
+  DispatchKey _dispatchKey;
 
   TourMap _map;
   List<GraphPoint> _cityPoints;
-  GraphActions _actions;
   Chromosome _solution;
+
   bool _isSimRunning;
   bool _solutionFound;
-  GraphStore(this._actions){
+
+  GraphStore(this._actions, this._events, this._dispatchKey){
     this._isSimRunning = false;
     this._solutionFound = false;
     this._cityPoints = [];
@@ -49,6 +61,9 @@ class GraphStore extends Store {
 
   void _removeCity(int index){
     _cityPoints.removeAt(index);
+    for(int i = 0; i < _cityPoints.length; i++){
+      _cityPoints[i].name = (i+1);
+    }
   }
 
   void _reset(){

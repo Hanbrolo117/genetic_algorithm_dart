@@ -1,10 +1,16 @@
+//Dart:
 import 'dart:html';
 import 'dart:math';
+
+//Dependencies:
 import 'package:react/react.dart' as react;
 import 'package:over_react/over_react.dart';
+import 'package:w_module/w_module.dart';
+
+//App:
 import 'package:genetic_algorithm/src/models/graph_point.dart';
-import 'package:genetic_algorithm/src/actions/graph_actions.dart';
-import 'package:genetic_algorithm/src/stores/graph_store.dart';
+import 'package:genetic_algorithm/src/graph_module/actions/graph_actions.dart';
+import 'package:genetic_algorithm/src/graph_module/stores/graph_store.dart';
 import 'package:genetic_algorithm/src/models/constants.dart';
 
 

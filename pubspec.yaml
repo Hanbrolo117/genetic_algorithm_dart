@@ -6,6 +6,7 @@ environment:
 
 #dependencies:
 dev_dependencies:
+  uuid:
   browser: '>=0.10.0 <0.11.0'
   dart_constructs:
   quiver: '>=0.23.0<0.24.0'

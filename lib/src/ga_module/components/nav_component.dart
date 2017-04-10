@@ -3,8 +3,8 @@ import 'package:react/react.dart' as react;
 import 'package:react/react_dom.dart' as react_dom;
 import 'package:react/react_client.dart' as react_client;
 import 'package:over_react/over_react.dart';
-import 'package:genetic_algorithm/src/graph_module/components/title_component.dart';
-import 'package:genetic_algorithm/src/graph_module/components/nav/nav_item_component.dart';
+import 'package:genetic_algorithm/src/ga_module/components/title_component.dart';
+import 'package:genetic_algorithm/src/ga_module/components/nav/nav_item_component.dart';
 
 
 @Factory()
